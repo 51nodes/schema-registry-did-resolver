@@ -1,14 +1,15 @@
-import { Controller, Get, Response, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Response, Request, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Response as Res } from 'express';
+import { Response as Res, Request as Req } from 'express';
 
 @Controller('1.0/identifiers')
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get(':id')
-  getDidDocument(@Response() res: Res, @Param('id') id): any {
-    const didDoc = this.appService.getDidDocument(id);
+  getDidDocument(@Request() req: Req, @Response() res: Res, @Param('id') id): any {
+    const baseUrl = `${req.protocol}://${req.headers.host}`
+    const didDoc = this.appService.getDidDocument(id, baseUrl);
     return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json' })
       .send(JSON.stringify(didDoc, null, 2));
   }
@@ -18,7 +19,7 @@ export class AppController {
     try {
       const schema = await this.appService.getSchemaFromDid(id);
       return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json' })
-      .send(schema);
+        .send(schema);
     } catch (error) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
