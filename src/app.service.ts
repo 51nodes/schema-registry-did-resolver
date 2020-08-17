@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getSchema, ConfigObject, initLibrary } from '../../schema-registry-did-crud/dist';
+import { getSchema, ConfigObject, initLibrary } from '@51nodes/decentralized-schema-registry'
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
