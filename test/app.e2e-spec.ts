@@ -15,10 +15,9 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('Get did Document', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('1.0/identifiers/did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5')
       .expect(200)
-      .expect('Hello World!');
   });
 });

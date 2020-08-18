@@ -9,7 +9,7 @@
 
 ## Using Docker
 1. docker build -t schema-registry-did-resolver ./
-2. docker run schema-registry-did-resolver
+2. docker run --name did-resolver schema-registry-did-resolver
 3. docker ps
 4. docker exec -it did-resolver sh
     * apt update
