@@ -48,8 +48,7 @@ export class AppService {
 
   async getSchemaFromDid(did: string): Promise<any> {
     try {
-      const schema = await getSchema(did);
-      return schema;
+      return await getSchema(did);
     } catch (error) {
       if (error instanceof InvalidInput) {
         throw new HttpException({

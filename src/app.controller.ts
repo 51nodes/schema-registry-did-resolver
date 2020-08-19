@@ -1,4 +1,4 @@
-import { Controller, Get, Response, Request, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Response, Request, Param, NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response as Res, Request as Req } from 'express';
 
@@ -9,15 +9,12 @@ export class AppController {
 
   @Get(':id')
   async getDidDocument(@Request() req: Req, @Response() res: Res, @Param('id') id: string): Promise<any> {
-    const baseUrl = `${req.protocol}://${req.headers.host}`
-    const didDoc = await this.appService.getDidDocument(id, baseUrl);
     const schema = await this.appService.getSchemaFromDid(id);
     if (!schema) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: `Could not get schema from given did ${id}`,
-      }, HttpStatus.NOT_FOUND)
+      throw new NotFoundException();
     }
+    const baseUrl = `${req.protocol}://${req.headers.host}`
+    const didDoc = this.appService.getDidDocument(id, baseUrl);
     return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json' })
       .send(JSON.stringify(didDoc, null, 2));
   }
@@ -26,14 +23,11 @@ export class AppController {
   async getSchema(@Response() res: Res, @Param('id') id: string): Promise<any> {
     const schema = await this.appService.getSchemaFromDid(id);
     if (schema) {
-      const contentType : string = this.appService.getContentTypeFromSchemaHint(id);
+      const contentType: string = this.appService.getContentTypeFromSchemaHint(id);
       return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': contentType })
         .send(schema);
     } else {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: `Could not get schema from given did ${id}`,
-      }, HttpStatus.NOT_FOUND)
+      throw new NotFoundException();
     }
   }
 
