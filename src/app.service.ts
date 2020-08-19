@@ -1,11 +1,12 @@
 import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
-import { getSchema, ConfigObject, initLibrary, InvalidInput } from '../../schema-registry-did-crud/dist/index'
+import { getSchema, ConfigObject, initLibrary, InvalidInput, SchemaType } from '@51nodes/decentralized-schema-registry'
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
 
   private readonly logger = new Logger(AppService.name);
+  private readonly didRegEx = /^did:schema:(evan-ipfs|public-ipfs):(type-hint=(json-schema|xsd):)?([0-9a-zA-Z._-]*)$/
 
   constructor(private configService: ConfigService) { }
 
@@ -62,7 +63,19 @@ export class AppService {
         }, HttpStatus.INTERNAL_SERVER_ERROR)
       }
     }
+  }
 
+  getContentTypeFromSchemaHint(did: string): string {
+    const parsedDidArray = did.match(this.didRegEx);
+    const schemaHint: SchemaType = parsedDidArray[3] as SchemaType;
+    switch (schemaHint) {
+      case SchemaType.JsonSchema:
+        return 'application/json'
+      case SchemaType.Xsd:
+        return 'application/xhtml+xml'
+      default:
+        return 'text/plain';
+    }
   }
 
 }

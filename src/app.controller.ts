@@ -26,7 +26,8 @@ export class AppController {
   async getSchema(@Response() res: Res, @Param('id') id: string): Promise<any> {
     const schema = await this.appService.getSchemaFromDid(id);
     if (schema) {
-      return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': 'text/plain' })
+      const contentType : string = this.appService.getContentTypeFromSchemaHint(id);
+      return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': contentType })
         .send(schema);
     } else {
       throw new HttpException({

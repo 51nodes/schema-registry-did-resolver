@@ -18,4 +18,22 @@ describe('AppService', () => {
         'localost:8080')).toStrictEqual(didDocObject)
   });
 
+  it('should return content type application/xhtml+xml', () => {
+    expect(
+      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
+      .toBe('application/xhtml+xml')
+  });
+
+  it('should return content type application/json', () => {
+    expect(
+      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:type-hint=json-schema:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
+      .toBe('application/json')
+  });
+
+  it('should return content type text/plain', () => {
+    expect(
+      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
+      .toBe('text/plain')
+  });
+
 });
