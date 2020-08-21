@@ -1,12 +1,15 @@
 import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
-import { getSchema, ConfigObject, initLibrary, InvalidInput, SchemaType } from '@51nodes/decentralized-schema-registry'
+import {
+  getSchema, ConfigObject, initLibrary,
+  InvalidInput, SchemaType, Network,
+  SchemaDid, parseSchemaDid
+} from '@51nodes/decentralized-schema-registry'
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
 
   private readonly logger = new Logger(AppService.name);
-  private readonly didRegEx = /^did:schema:(evan-ipfs|public-ipfs):(type-hint=(json-schema|xsd):)?([0-9a-zA-Z._-]*)$/
 
   constructor(private configService: ConfigService) { }
 
@@ -33,14 +36,16 @@ export class AppService {
     initLibrary(configObject);
   }
 
-  getDidDocument(did: string, baseUrl: string): any {
+  getDidDocument(did: string): any {
+    const serviceBaseUrl = this.getNetworkServicePointFromDid(did);
+    const id = this.getHashOfDid(did);
     const didDocObject: any = {
-      "@context": 'https://www.w3.org/2019/did/v1/',
+      "@context": 'https://www.w3.org/ns/did/v1',
       "id": did,
       "service": [{
         "id": `${did}#get`,
         "type": "GetSchemaService",
-        "serviceEndpoint": `${baseUrl}/1.0/identifiers/${did}/get`,
+        "serviceEndpoint": `${serviceBaseUrl}/${id}`,
       }]
     };
     return didDocObject;
@@ -64,16 +69,30 @@ export class AppService {
     }
   }
 
+  getHashOfDid(did: string): string {
+    const schemaDidObject: SchemaDid = parseSchemaDid(did);
+    return schemaDidObject.id;
+  }
+
   getContentTypeFromSchemaHint(did: string): string {
-    const parsedDidArray = did.match(this.didRegEx);
-    const schemaHint: SchemaType = parsedDidArray[3] as SchemaType;
-    switch (schemaHint) {
+    const schemaDidObject: SchemaDid = parseSchemaDid(did);
+    switch (schemaDidObject.hint) {
       case SchemaType.JsonSchema:
         return 'application/json'
       case SchemaType.Xsd:
         return 'application/xhtml+xml'
       default:
         return 'text/plain';
+    }
+  }
+
+  getNetworkServicePointFromDid(did: string): string {
+    const schemaDidObject: SchemaDid = parseSchemaDid(did);
+    switch (schemaDidObject.network) {
+      case Network.EvanIpfs:
+        return this.configService.get<string>('evanIpfsServicePoint')
+      case Network.PublicIpfs:
+        return this.configService.get<string>('publicIpfsServicePoint');
     }
   }
 

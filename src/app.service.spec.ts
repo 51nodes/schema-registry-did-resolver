@@ -2,31 +2,34 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 
 describe('AppService', () => {
-  const appService: AppService = new AppService(new ConfigService());
+  const appService: AppService = new AppService(new ConfigService(
+    {
+      'evanIpfsServicePoint':'baseUrl'
+    }
+  ));
   it('should return did document', () => {
     const didDocObject: any = {
-      "@context": 'https://www.w3.org/2019/did/v1/',
-      "id": 'did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5',
+      "@context": 'https://www.w3.org/ns/did/v1',
+      "id": 'did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5',
       "service": [{
-        "id": `did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5#get`,
+        "id": `did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5#get`,
         "type": "GetSchemaService",
-        "serviceEndpoint": `localhost:8080/1.0/identifiers/did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5/get`,
+        "serviceEndpoint": `baseUrl/QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5`,
       }]
     };
     expect(
-      appService.getDidDocument('did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5',
-        'localhost:8080')).toStrictEqual(didDocObject)
+      appService.getDidDocument('did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5')).toStrictEqual(didDocObject)
   });
 
   it('should return content type application/xhtml+xml', () => {
     expect(
-      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
+      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
       .toBe('application/xhtml+xml')
   });
 
   it('should return content type application/json', () => {
     expect(
-      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:type-hint=json-schema:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
+      appService.getContentTypeFromSchemaHint('did:schema:evan-ipfs:json-schema:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5'))
       .toBe('application/json')
   });
 

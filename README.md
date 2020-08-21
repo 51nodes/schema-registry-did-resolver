@@ -14,5 +14,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 2. docker run --name did-resolver schema-registry-did-resolver
 3. docker ps
 4. docker exec -it did-resolver sh
-    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5
-    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:type-hint=xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5/get
+    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5
+    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5/get

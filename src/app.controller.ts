@@ -13,8 +13,7 @@ export class AppController {
     if (!schema) {
       throw new NotFoundException();
     }
-    const baseUrl = `${req.protocol}://${req.headers.host}`
-    const didDoc = this.appService.getDidDocument(id, baseUrl);
+    const didDoc = this.appService.getDidDocument(id);
     return res.set({ 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json' })
       .send(JSON.stringify(didDoc, null, 2));
   }
