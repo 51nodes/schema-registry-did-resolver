@@ -1,6 +1,6 @@
-import { Controller, Get, Response, Request, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Response, Param, NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Response as Res, Request as Req } from 'express';
+import { Response as Res} from 'express';
 
 @Controller('1.0/identifiers')
 export class AppController {
@@ -8,7 +8,7 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get(':id')
-  async getDidDocument(@Request() req: Req, @Response() res: Res, @Param('id') id: string): Promise<any> {
+  async getDidDocument(@Response() res: Res, @Param('id') id: string): Promise<any> {
     const schema = await this.appService.getSchemaFromDid(id);
     if (!schema) {
       throw new NotFoundException();
