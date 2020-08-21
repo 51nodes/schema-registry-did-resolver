@@ -1,10 +1,10 @@
 {
   "name": "schema-registry-did-resolver",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A schema registry did resolver",
+  "author": "51nodes GmbH",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache License 2.0",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@51nodes/decentralized-schema-registry": "0.0.7",
+    "@51nodes/decentralized-schema-registry": "0.0.8",
     "@nestjs/common": "^7.0.0",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
