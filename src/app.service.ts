@@ -71,12 +71,12 @@ export class AppService {
 
   getHashOfDid(did: string): string {
     const schemaDidObject: SchemaDid = parseSchemaDid(did);
-    return schemaDidObject.id;
+    return schemaDidObject.hash;
   }
 
   getContentTypeFromSchemaHint(did: string): string {
     const schemaDidObject: SchemaDid = parseSchemaDid(did);
-    switch (schemaDidObject.hint) {
+    switch (schemaDidObject.typeHint) {
       case SchemaType.JsonSchema:
         return 'application/json'
       case SchemaType.Xsd:

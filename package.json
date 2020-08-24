@@ -1,6 +1,6 @@
 {
   "name": "schema-registry-did-resolver",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A schema registry did resolver",
   "author": "51nodes GmbH",
   "private": true,
@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@51nodes/decentralized-schema-registry": "0.0.8",
+    "@51nodes/decentralized-schema-registry": "0.1.0",
     "@nestjs/common": "^7.0.0",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
