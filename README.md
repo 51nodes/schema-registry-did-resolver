@@ -6,16 +6,16 @@ Unless required by applicable law or agreed to in writing, software distributed 
 1. npm install
 1. npm run start:dev
 1. in browser open localhost:8080
-1. to check did document: http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5
-1. to get schema: http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5/get
+1. to check did document: http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:json-schema:Qma2beXKwZeiUXcaRaQKwbBV1TqyiJnsMTYExUTdQue43J
+1. to get schema: http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:json-schema:Qma2beXKwZeiUXcaRaQKwbBV1TqyiJnsMTYExUTdQue43J/get
 
 ## Using Docker
 1. docker build -t schema-registry-did-resolver ./
 2. docker run --name did-resolver schema-registry-did-resolver
 3. docker ps
 4. docker exec -it did-resolver sh
-    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5
-    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:xsd:QmUQAxKQ5sbWWrcBZzwkThktfUGZvuPQyTrqMzb3mZnLE5/get
+    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:json-schema:Qma2beXKwZeiUXcaRaQKwbBV1TqyiJnsMTYExUTdQue43J
+    * curl -X GET http://localhost:8080/1.0/identifiers/did:schema:evan-ipfs:json-schema:Qma2beXKwZeiUXcaRaQKwbBV1TqyiJnsMTYExUTdQue43J/get
 
 ## Configurations
 **WARNING**: The provided evan account and private key are published on gitHub and only for example purposes, therefore do not use this private key in your configuration and on any network. Creating an evan account can be done using the evan.network dashboard : https://dashboard.evan.network/#/dashboard.vue.evan/onboarding.vue.evan/sign-up
